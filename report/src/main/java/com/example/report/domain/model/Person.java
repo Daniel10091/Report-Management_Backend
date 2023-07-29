@@ -9,6 +9,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,6 +20,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
+@Table(name = "tbl_person")
 public class Person {
 
   @Id
@@ -39,11 +41,11 @@ public class Person {
   private String phone;
 
   @Column(name = "created_date", nullable = false)
-  @CreationTimestamp()
+  @CreationTimestamp
   private LocalDateTime createdDate;
 
   @Column(name = "updated_date", nullable = false)
-  @CreationTimestamp()
+  @CreationTimestamp
   private LocalDateTime updatedDate;
   
 }
