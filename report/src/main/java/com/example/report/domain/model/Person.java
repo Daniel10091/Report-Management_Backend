@@ -46,6 +46,9 @@ public class Person {
   @Column(name = "gender")
   private String gender;
 
+  @Column(name = "itin")
+  private String ITIN;
+
   @Column(name = "email_id", nullable = false)
   private String emailId;
 
