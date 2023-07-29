@@ -44,6 +44,9 @@ public class Person {
   @OneToMany(mappedBy = "tbl_people", cascade = CascadeType.ALL, orphanRemoval = true)
   private Set<Email> emails = new LinkedHashSet<>();
 
+  @OneToMany(mappedBy = "tbl_people")
+  private Set<Address> addresses = new LinkedHashSet<>();
+
   @Column(name = "created_date", nullable = false)
   @CreationTimestamp
   private LocalDateTime createdDate;
