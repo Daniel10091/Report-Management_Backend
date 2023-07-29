@@ -1,18 +1,14 @@
 package com.example.report.domain.model;
 
-import java.time.LocalDateTime;
-import java.util.LinkedHashSet;
-import java.util.Set;
-
 import org.hibernate.annotations.CreationTimestamp;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,35 +20,36 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-@Table(name = "tbl_people")
-public class Person {
-
+@Table(name = "tbl_phones")
+public class Phone {
+  
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(nullable = false)
   private Long id;
 
-  @Column(name = "first_name", nullable = false)
-  private String firstName;
+  @ManyToOne
+  @JoinColumn(name = "person_id")
+  private Person person;
 
-  @Column(name = "last_name", nullable = false)
-  private String lastName;
+  @Column(name = "phone_number", nullable = false)
+  private String phoneNumber;
 
-  @Column(name = "email_id", nullable = false)
-  private String emailId;
+  @Column(nullable = false)
+  private Boolean verified;
 
-  @OneToMany(mappedBy = "tbl_people", cascade = CascadeType.ALL, orphanRemoval = true)
-  private Set<Email> emails = new LinkedHashSet<>();
+  @Column(nullable = false)
+  private Boolean primary;
 
-  @OneToMany(mappedBy = "tbl_people")
-  private Set<Phone> phones = new LinkedHashSet<>();
+  @Column(nullable = false)
+  private String visibility;
 
   @Column(name = "created_date", nullable = false)
   @CreationTimestamp
-  private LocalDateTime createdDate;
+  private String createdDate;
 
   @Column(name = "updated_date", nullable = false)
   @CreationTimestamp
-  private LocalDateTime updatedDate;
-  
+  private String updatedDate;
+
 }
