@@ -47,6 +47,9 @@ public class Person {
   @OneToMany(mappedBy = "tbl_people")
   private Set<Address> addresses = new LinkedHashSet<>();
 
+  @OneToMany(mappedBy = "tbl_people")
+  private Set<Phone> phones = new LinkedHashSet<>();
+
   @Column(name = "created_date", nullable = false)
   @CreationTimestamp
   private LocalDateTime createdDate;
