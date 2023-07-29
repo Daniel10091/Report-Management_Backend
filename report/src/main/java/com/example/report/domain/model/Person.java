@@ -13,6 +13,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -57,5 +58,8 @@ public class Person {
   @Column(name = "updated_date", nullable = false)
   @CreationTimestamp
   private LocalDateTime updatedDate;
+
+  @OneToOne(mappedBy = "tbl_people", cascade = CascadeType.ALL, optional = true)
+  private User user;
   
 }
