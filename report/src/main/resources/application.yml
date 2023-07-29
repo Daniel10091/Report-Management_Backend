@@ -39,3 +39,25 @@ jwt:
     converter:
       resource-id: report
       principle-attribute: preferred_username
+
+
+project:
+  # assets folder
+  assets:
+    folder: /home/duy/Downloads/ReportManagement/assets
+    url: http://localhost:8084/report/assets
+  files:
+    # Default folder to save uploaded documents
+    documents:
+      upload-dir: ${project.assets.folder}/documents
+      # Default folder to save uploaded document types icons
+      document-type:
+        icons:
+          upload-dir: ${project.files.documents.upload-dir}/document-types/icons
+    # Default folder to save uploaded images
+    images:
+      upload-dir: ${project.assets.folder}/images
+      user-profile:
+        # Default folder to save uploaded users avatars
+        avatars:
+          upload-dir: ${project.files.images.upload-dir}/users/avatars
