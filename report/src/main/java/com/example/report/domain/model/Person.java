@@ -1,5 +1,6 @@
 package com.example.report.domain.model;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -38,6 +39,12 @@ public class Person {
 
   @Column(name = "last_name", nullable = false)
   private String lastName;
+
+  @Column(name = "birth_date")
+  private LocalDate birthDate;
+
+  @Column(name = "gender")
+  private String gender;
 
   @Column(name = "email_id", nullable = false)
   private String emailId;
