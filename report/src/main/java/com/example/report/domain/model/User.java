@@ -33,8 +33,11 @@ public class User {
   @MapsId
   private Person person;
   
-  @Column(name = "avatar_path", nullable = false)
+  @Column(name = "avatar_path")
   private String avatarPath;
+
+  @Column(name = "theme_image_path")
+  private String themeImagePath;
 
   @Column(name = "user_identifier", nullable = false)
   private String userIdentifier;
