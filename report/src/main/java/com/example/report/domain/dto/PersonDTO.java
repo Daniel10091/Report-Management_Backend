@@ -8,7 +8,7 @@ public class PersonDTO {
   private Long code;
   private String firstName;
   private String lastName;
-  private String userIdentify;
+  private String userIdentifier;
   private String avatarPath;
   private String themeImagePath;
   private String gender;
