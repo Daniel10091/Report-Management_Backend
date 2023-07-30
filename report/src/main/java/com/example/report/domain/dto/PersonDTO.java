@@ -13,9 +13,6 @@ public class PersonDTO {
   private LocalDate birthDate;
   private String gender;
   private String ITIN;
-  private Long emailId;
-  private Long addressId;
-  private Long phoneId;
   private Boolean active;
   private LocalDateTime createdDate;
   private LocalDateTime updatedDate;
