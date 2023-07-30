@@ -11,6 +11,7 @@ import com.example.report.domain.model.Person;
 public class PersonMapper {
   
   @Mapping(source = "person.id", target = "code")
+  @Mapping(source = "person.user.userIdentiry", target = "userIdentify")
   @Mapping(source = "person.user.avatarPath", target = "avatarPath")
   @Mapping(source = "person.user.themeImagePath", target = "themeImagePath")
   @Mapping(source = "person.user.active", target = "active")
