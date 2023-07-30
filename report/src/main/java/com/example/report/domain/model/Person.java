@@ -49,9 +49,6 @@ public class Person {
   @Column(name = "itin")
   private String ITIN;
 
-  @Column(name = "email_id", nullable = false)
-  private String emailId;
-
   @OneToMany(mappedBy = "tbl_people", cascade = CascadeType.ALL, orphanRemoval = true)
   private Set<Email> emails = new LinkedHashSet<>();
 
