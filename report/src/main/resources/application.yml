@@ -44,9 +44,10 @@ jwt:
 project:
   # assets folder
   assets:
-    folder: /home/duy/Downloads/ReportManagement/assets
+    folder: C:/Users/Public/Documents/Report-Management
     url: http://localhost:8084/report/assets
   files:
+    folder: ${project.assets.folder}/files
     # Default folder to save uploaded documents
     documents:
       upload-dir: ${project.assets.folder}/documents
@@ -54,10 +55,14 @@ project:
       document-type:
         icons:
           upload-dir: ${project.files.documents.upload-dir}/document-types/icons
+    # Default folder to save uploaded user files
+    user-files: ${project.files.folder}/user-files
     # Default folder to save uploaded images
     images:
-      upload-dir: ${project.assets.folder}/images
+      upload-dir: ${project.files.folder}/images
       user-profile:
         # Default folder to save uploaded users avatars
         avatars:
-          upload-dir: ${project.files.images.upload-dir}/users/avatars
+          upload-dir: ${project.files.images.upload-dir}/avatars
+        themes:
+          upload-dir: ${project.files.images.upload-dir}/themes
