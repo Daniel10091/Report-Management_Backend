@@ -9,8 +9,8 @@ public class PersonDTO {
   private String firstName;
   private String lastName;
   private String userIdentifier;
-  private String avatarPath;
-  private String themeImagePath;
+  private byte[] avatarPath;
+  private byte[] themeImagePath;
   private String gender;
   private LocalDate birthDate;
   private String ITIN;
