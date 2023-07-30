@@ -11,8 +11,8 @@ public class PersonDTO {
   private String userIdentify;
   private String avatarPath;
   private String themeImagePath;
-  private LocalDate birthDate;
   private String gender;
+  private LocalDate birthDate;
   private String ITIN;
   private Boolean active;
   private LocalDateTime createdDate;
