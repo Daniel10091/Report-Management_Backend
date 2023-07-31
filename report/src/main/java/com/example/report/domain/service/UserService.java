@@ -1,12 +1,15 @@
 package com.example.report.domain.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.example.report.domain.dto.UserRegistrationRequest;
 import com.example.report.domain.exception.UserAlreadyExistException;
 import com.example.report.domain.exception.UserNotFoundException;
 import com.example.report.domain.model.Person;
+import com.example.report.domain.model.User;
 import com.example.report.domain.repository.UserRepository;
 
 import jakarta.transaction.Transactional;
@@ -38,7 +41,7 @@ public class UserService {
    */
   public Person findUserById(Long id) {
     return userRepository.findById(id)
-        .orElseThrow(() -> new UserNotFoundException("Person not found"));
+        .orElseThrow(() -> new UserNotFoundException("User with id " + id + " not found"));
   }
 
   /**
@@ -47,25 +50,37 @@ public class UserService {
    * @param person
    * @return
    */
-  public Person registerUser(Person person) {
+  public Person registerUser(UserRegistrationRequest user) {
     Person newPerson = new Person();
     Person personExist = null;
+    Person personReturn = null;
 
-    personExist = userRepository.findPersonByFirstNameAndLastName(
-        person.getFirstName(),
-        person.getLastName()
-      ).get();
+    // personExist = userRepository.findPersonByFirstNameAndLastName(
+    //     user.firstName(),
+    //     user.lastName()
+    //   ).get();
 
-    if (personExist != null) {
-      throw new UserAlreadyExistException("Person already exists");
-    } else {
+    // if (personExist != null) {
+    //   throw new UserAlreadyExistException("User with name '" + user.firstName() + " " + user.lastName() + "' already exists");
+    // } else {
 
-      person.getUser().setActive(true);
-      
-      newPerson.getUser().setPerson(person);
+    // }
+    newPerson.setFirstName(user.firstName());
+    newPerson.setLastName(user.lastName());
+    newPerson.setBirthDate(user.birthDate());
+    newPerson.setGender(user.gender());
+    newPerson.setITIN(user.ITIN());
+    newPerson.setUser(new User());
+    newPerson.getUser().setAvatar(user.avatar());
+    newPerson.getUser().setThemeImage(user.themeImage());
+    newPerson.getUser().setUserIdentifier(user.userIdentifier());
+    newPerson.getUser().setActive(user.active());
 
-      newPerson = userRepository.save(person);
-    }
+    newPerson.getUser().setActive(true);
+    
+    // personReturn.getUser().setPerson(newPerson);
+
+    personReturn = userRepository.save(newPerson);
 
     return newPerson;
   }
@@ -77,24 +92,25 @@ public class UserService {
    * @param person
    * @return
    */
-  public Person updateUser(Long id, Person person) {
+  public Person updateUser(Long id, UserRegistrationRequest user) {
     Person personToUpdate = null;
 
     personToUpdate = userRepository.findById(id)
-        .orElseThrow(() -> new UserNotFoundException("Person not found"));
+        .orElseThrow(() -> new UserNotFoundException("User with id " + id + " not found"));
 
     if (personToUpdate == null) {
-      throw new UserNotFoundException("Person not found");
+      throw new UserNotFoundException("User with id " + id + " not found");
     } else {
-      personToUpdate.setFirstName(person.getFirstName());
-      personToUpdate.setLastName(person.getLastName());
-      personToUpdate.setGender(person.getGender());
-      personToUpdate.setBirthDate(person.getBirthDate());
-      personToUpdate.setITIN(person.getITIN());
-      personToUpdate.getUser().setAvatar(person.getUser().getAvatar());
-      personToUpdate.getUser().setThemeImage(person.getUser().getThemeImage());
-      personToUpdate.getUser().setUserIdentifier(person.getUser().getUserIdentifier());
-      personToUpdate.getUser().setActive(person.getUser().getActive());
+      personToUpdate.setFirstName(user.firstName());
+      personToUpdate.setLastName(user.lastName());
+      personToUpdate.setGender(user.gender());
+      personToUpdate.setBirthDate(user.birthDate());
+      personToUpdate.setITIN(user.ITIN());
+      personToUpdate.setUpdatedDate(LocalDateTime.now());
+      personToUpdate.getUser().setAvatar(user.avatar());
+      personToUpdate.getUser().setThemeImage(user.themeImage());
+      personToUpdate.getUser().setUserIdentifier(user.userIdentifier());
+      personToUpdate.getUser().setUpdatedDate(LocalDateTime.now());
       
       personToUpdate = userRepository.save(personToUpdate);
     }
@@ -111,10 +127,10 @@ public class UserService {
     Person personToDelete = null;
 
     personToDelete = userRepository.findById(id)
-        .orElseThrow(() -> new UserNotFoundException("Person not found"));
+        .orElseThrow(() -> new UserNotFoundException("User with id " + id + " not found"));
 
     if (personToDelete == null) {
-      throw new UserNotFoundException("Person not found");
+      throw new UserNotFoundException("User with id " + id + " not found");
     } else {
       userRepository.delete(personToDelete);
     }

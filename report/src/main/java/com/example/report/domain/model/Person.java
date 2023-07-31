@@ -52,14 +52,14 @@ public class Person {
   @Column(name = "itin")
   private String ITIN;
 
-  @OneToMany(mappedBy = "tbl_people", cascade = CascadeType.ALL, orphanRemoval = true)
-  private Set<Email> emails = new LinkedHashSet<>();
+  // @OneToMany(mappedBy = "tbl_people", cascade = CascadeType.ALL, orphanRemoval = true)
+  // private Set<Email> emails = new LinkedHashSet<>();
 
-  @OneToMany(mappedBy = "tbl_people")
-  private Set<Address> addresses = new LinkedHashSet<>();
+  // @OneToMany(mappedBy = "tbl_people")
+  // private Set<Address> addresses = new LinkedHashSet<>();
 
-  @OneToMany(mappedBy = "tbl_people")
-  private Set<Phone> phones = new LinkedHashSet<>();
+  // @OneToMany(mappedBy = "tbl_people")
+  // private Set<Phone> phones = new LinkedHashSet<>();
 
   @Column(name = "created_date", nullable = false)
   @CreationTimestamp
@@ -69,7 +69,7 @@ public class Person {
   @CreationTimestamp
   private LocalDateTime updatedDate;
 
-  @OneToOne(mappedBy = "tbl_people", cascade = CascadeType.ALL, optional = true)
+  @OneToOne(mappedBy = "person", cascade = CascadeType.ALL, optional = true)
   private User user;
   
 }

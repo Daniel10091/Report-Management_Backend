@@ -12,7 +12,6 @@ CREATE TABLE `tbl_people` (
   `birthdate` date NOT NULL,
   `gender` varchar(1) DEFAULT "N" NOT NULL,
   `ITIN` varchar(12) DEFAULT "N" NOT NULL,
-  `age` int(11) NOT NULL,
   `created_date` datetime NOT NULL,
   `updated_date` datetime NOT NULL,
   CONSTRAINT ck_people CHECK (gender IN ("F", "M", "N")),
@@ -86,8 +85,8 @@ CREATE TABLE `tbl_phones` (
 -- Path: src\main\resources\database.sql
 CREATE TABLE `tbl_users` (
   `id` int(16) NOT NULL,
-  `avatar` LONGBLOB NOT NULL,
-  `theme_image` LONGBLOB NOT NULL,
+  `avatar` LONGBLOB,
+  `theme_image` LONGBLOB,
   `user_identifier` varchar(45) NOT NULL,
   `active` tinyint(1) NOT NULL,
   `created_date` datetime NOT NULL,
