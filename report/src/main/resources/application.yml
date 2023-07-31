@@ -63,6 +63,6 @@ project:
       user-profile:
         # Default folder to save uploaded users avatars
         avatars:
-          upload-dir: ${project.files.images.upload-dir}/avatars
+          upload-dir: ${project.files.images.upload-dir}/avatar
         themes:
-          upload-dir: ${project.files.images.upload-dir}/themes
+          upload-dir: ${project.files.images.upload-dir}/theme

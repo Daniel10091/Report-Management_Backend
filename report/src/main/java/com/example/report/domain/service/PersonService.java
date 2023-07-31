@@ -1,19 +1,26 @@
 package com.example.report.domain.service;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.example.report.domain.exception.PersonAlreadyExistException;
 import com.example.report.domain.exception.PersonNotFoundException;
 import com.example.report.domain.model.Person;
 import com.example.report.domain.repository.PersonRepository;
+import com.example.report.domain.util.UserFilesUtil;
 
 import jakarta.transaction.Transactional;
 
 @Service
 @Transactional
 public class PersonService {
+
+  @Value("${project.files.user-files}")
+  private String basePath;
 
   private PersonRepository personRepository;
 
@@ -65,7 +72,7 @@ public class PersonService {
       // TODO: Create user theme image
 
 
-      newPerson.getUser().setPerson(person);
+      // newPerson.getUser().setPerson(person);
       newPerson = personRepository.save(person);
     }
 
@@ -93,9 +100,9 @@ public class PersonService {
       personToUpdate.setBirthDate(person.getBirthDate());
       personToUpdate.setGender(person.getGender());
       personToUpdate.setITIN(person.getITIN());
-      personToUpdate.getUser().setUserIdentifier(person.getUser().getUserIdentifier());
-      personToUpdate.getUser().setAvatarPath(person.getUser().getAvatarPath());
-      personToUpdate.getUser().setThemeImagePath(person.getUser().getThemeImagePath());
+      // personToUpdate.getUser().setUserIdentifier(person.getUser().getUserIdentifier());
+      // personToUpdate.getUser().setAvatarPath(person.getUser().getAvatarPath());
+      // personToUpdate.getUser().setThemeImagePath(person.getUser().getThemeImagePath());
 
       // TODO: Delete actual user avatar
 
@@ -125,6 +132,11 @@ public class PersonService {
     } else {
       personRepository.delete(personToDelete);
     }
+  }
+
+  public Object saveUserAvatar(byte[] avatarBytes) {
+    InputStream in = new ByteArrayInputStream(avatarBytes);
+    return UserFilesUtil.createUserAvatar(basePath, "daniel10091", in);
   }
 
 }
