@@ -16,11 +16,11 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
+@Table(name = "tbl_addresses")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-@Table(name = "tbl_addresses")
 public class Address {
   
   @Id
@@ -48,7 +48,10 @@ public class Address {
   private String postalCode;
 
   @Column(nullable = false)
-  private String visibility;
+  private Boolean primary;
+
+  @Column(nullable = false)
+  private Boolean visibility;
 
   @Column(name = "created_date", nullable = false)
   @CreationTimestamp

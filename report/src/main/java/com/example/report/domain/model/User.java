@@ -17,11 +17,11 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
+@Table(name = "tbl_users")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-@Table(name = "tbl_users")
 public class User {
   
   @Id
@@ -33,11 +33,11 @@ public class User {
   @MapsId
   private Person person;
   
-  @Column(name = "avatar_path")
-  private String avatarPath;
+  // @Column()
+  private byte[] avatar;
 
-  @Column(name = "theme_image_path")
-  private String themeImagePath;
+  @Column(name = "theme_image")
+  private byte[] themeImage;
 
   @Column(name = "user_identifier", nullable = false)
   private String userIdentifier;

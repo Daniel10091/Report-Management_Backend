@@ -15,6 +15,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.PrimaryKeyJoinColumn;
+import jakarta.persistence.SecondaryTable;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -22,11 +24,12 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
+@Table(name = "tbl_people")
+@SecondaryTable(name = "tbl_users", pkJoinColumns = @PrimaryKeyJoinColumn(name = "id"))
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-@Table(name = "tbl_people")
 public class Person {
 
   @Id
@@ -49,14 +52,14 @@ public class Person {
   @Column(name = "itin")
   private String ITIN;
 
-  // @OneToMany(mappedBy = "tbl_people", cascade = CascadeType.ALL, orphanRemoval = true)
-  // private Set<Email> emails = new LinkedHashSet<>();
+  @OneToMany(mappedBy = "tbl_people", cascade = CascadeType.ALL, orphanRemoval = true)
+  private Set<Email> emails = new LinkedHashSet<>();
 
-  // @OneToMany(mappedBy = "tbl_people")
-  // private Set<Address> addresses = new LinkedHashSet<>();
+  @OneToMany(mappedBy = "tbl_people")
+  private Set<Address> addresses = new LinkedHashSet<>();
 
-  // @OneToMany(mappedBy = "tbl_people")
-  // private Set<Phone> phones = new LinkedHashSet<>();
+  @OneToMany(mappedBy = "tbl_people")
+  private Set<Phone> phones = new LinkedHashSet<>();
 
   @Column(name = "created_date", nullable = false)
   @CreationTimestamp
@@ -66,7 +69,7 @@ public class Person {
   @CreationTimestamp
   private LocalDateTime updatedDate;
 
-  // @OneToOne(mappedBy = "tbl_people", cascade = CascadeType.ALL, optional = true)
-  // private User user;
+  @OneToOne(mappedBy = "tbl_people", cascade = CascadeType.ALL, optional = true)
+  private User user;
   
 }
