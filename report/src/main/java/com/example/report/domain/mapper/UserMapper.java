@@ -1,28 +1,27 @@
 package com.example.report.domain.mapper;
 
-import java.util.function.Function;
-
-import org.springframework.stereotype.Service;
+import org.mapstruct.InheritInverseConfiguration;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 import com.example.report.domain.dto.UserDTO;
 import com.example.report.domain.model.Person;
 
-@Service
-public class UserMapper implements Function<UserDTO, Person> {
+@Mapper
+public interface UserMapper {
 
-  @Override
-  public Person apply(UserDTO dto) {
-    return new Person(
-      dto.code(), 
-      dto.firstName(), 
-      dto.lastName(), 
-      dto.birthDate(), 
-      dto.gender(), 
-      dto.ITIN(), 
-      null, 
-      null, 
-      null
-    );
+  @Mapping(source = "person.id", target = "code")
+  @Mapping(source = "person.user.userIdentifier", target = "userIdentifier")
+  @Mapping(source = "person.user.active", target = "active")
+  @Mapping(source = "person.user.avatar", target = "avatar")
+  @Mapping(source = "person.user.themeImage", target = "themeImage")
+  public static UserDTO toDto(Person Person) {
+    throw new UnsupportedOperationException("Unimplemented method 'toDto'");
+  }
+
+  @InheritInverseConfiguration
+  public static Person toEntity(UserDTO PersonDTO) {
+    throw new UnsupportedOperationException("Unimplemented method 'toEntity'");
   }
 
 }
