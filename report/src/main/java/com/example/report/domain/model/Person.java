@@ -46,11 +46,9 @@ public class Person {
   @Column(name = "birth_date")
   private LocalDate birthDate;
 
-  @Column(name = "gender")
   private String gender;
 
-  @Column(name = "itin")
-  private String ITIN;
+  private String itin;
 
   // @OneToMany(mappedBy = "tbl_people", cascade = CascadeType.ALL, orphanRemoval = true)
   // private Set<Email> emails = new LinkedHashSet<>();
