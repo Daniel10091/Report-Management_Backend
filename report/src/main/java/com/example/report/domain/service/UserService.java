@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.example.report.domain.dto.UserRegistrationRequest;
+import com.example.report.domain.dto.UserDTO;
 import com.example.report.domain.exception.UserAlreadyExistException;
 import com.example.report.domain.exception.UserNotFoundException;
 import com.example.report.domain.model.Person;
@@ -50,39 +50,28 @@ public class UserService {
    * @param person
    * @return
    */
-  public Person registerUser(UserRegistrationRequest user) {
-    Person newPerson = new Person();
+  public Person registerUser(Person user) {
+    Person newUser = new Person();
     Person personExist = null;
-    Person personReturn = null;
+    Person userReturn = null;
 
-    // personExist = userRepository.findPersonByFirstNameAndLastName(
-    //     user.firstName(),
-    //     user.lastName()
-    //   ).get();
+    personExist = userRepository.findPersonByFirstNameAndLastName(
+        user.getFirstName(),
+        user.getLastName()
+      ).get();
 
-    // if (personExist != null) {
-    //   throw new UserAlreadyExistException("User with name '" + user.firstName() + " " + user.lastName() + "' already exists");
-    // } else {
+    if (personExist != null) {
+      throw new UserAlreadyExistException("Person already exists");
+    } else {
 
-    // }
-    newPerson.setFirstName(user.firstName());
-    newPerson.setLastName(user.lastName());
-    newPerson.setBirthDate(user.birthDate());
-    newPerson.setGender(user.gender());
-    newPerson.setITIN(user.ITIN());
-    newPerson.setUser(new User());
-    newPerson.getUser().setAvatar(user.avatar());
-    newPerson.getUser().setThemeImage(user.themeImage());
-    newPerson.getUser().setUserIdentifier(user.userIdentifier());
-    newPerson.getUser().setActive(user.active());
+      user.getUser().setActive(true);
+      
+      newUser.getUser().setPerson(newUser);
 
-    newPerson.getUser().setActive(true);
-    
-    // personReturn.getUser().setPerson(newPerson);
+      newUser = userRepository.save(newUser);
+    }
 
-    personReturn = userRepository.save(newPerson);
-
-    return newPerson;
+    return userReturn;
   }
 
   /**
@@ -92,7 +81,7 @@ public class UserService {
    * @param person
    * @return
    */
-  public Person updateUser(Long id, UserRegistrationRequest user) {
+  public Person updateUser(Long id, Person user) {
     Person personToUpdate = null;
 
     personToUpdate = userRepository.findById(id)
@@ -101,16 +90,15 @@ public class UserService {
     if (personToUpdate == null) {
       throw new UserNotFoundException("User with id " + id + " not found");
     } else {
-      personToUpdate.setFirstName(user.firstName());
-      personToUpdate.setLastName(user.lastName());
-      personToUpdate.setGender(user.gender());
-      personToUpdate.setBirthDate(user.birthDate());
-      personToUpdate.setITIN(user.ITIN());
-      personToUpdate.setUpdatedDate(LocalDateTime.now());
-      personToUpdate.getUser().setAvatar(user.avatar());
-      personToUpdate.getUser().setThemeImage(user.themeImage());
-      personToUpdate.getUser().setUserIdentifier(user.userIdentifier());
-      personToUpdate.getUser().setUpdatedDate(LocalDateTime.now());
+      personToUpdate.setFirstName(user.getFirstName());
+      personToUpdate.setLastName(user.getLastName());
+      personToUpdate.setGender(user.getGender());
+      personToUpdate.setBirthDate(user.getBirthDate());
+      personToUpdate.setITIN(user.getITIN());
+      personToUpdate.getUser().setAvatar(user.getUser().getAvatar());
+      personToUpdate.getUser().setThemeImage(user.getUser().getThemeImage());
+      personToUpdate.getUser().setUserIdentifier(user.getUser().getUserIdentifier());
+      personToUpdate.getUser().setActive(user.getUser().getActive());
       
       personToUpdate = userRepository.save(personToUpdate);
     }
@@ -122,17 +110,18 @@ public class UserService {
    * Delete a person by id
    * 
    * @param id
+   * @throws Exception
    */
-  public void deleteUser(Long id) {
+  public void deleteUser(Long id) throws Exception {
     Person personToDelete = null;
 
     personToDelete = userRepository.findById(id)
         .orElseThrow(() -> new UserNotFoundException("User with id " + id + " not found"));
 
-    if (personToDelete == null) {
-      throw new UserNotFoundException("User with id " + id + " not found");
-    } else {
+    try {
       userRepository.delete(personToDelete);
+    } catch (Exception e) {
+      System.out.println("[ ERROR ] -> Error to delete user: " + e.getMessage());
     }
   }
 

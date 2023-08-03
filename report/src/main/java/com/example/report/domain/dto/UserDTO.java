@@ -1,35 +1,28 @@
 package com.example.report.domain.dto;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
-import com.example.report.domain.model.Person;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-public record UserDTO(
-  Long code,
-  String firstName,
-  String lastName,
-  String userIdentifier,
-  String gender,
-  LocalDate birthDate,
-  String ITIN,
-  Boolean active,
-  byte[] avatar,
-  byte[] themeImage
-) {
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
+public class UserDTO {
   
-  public UserDTO(Person person) {
-    this(
-      person.getId(),
-      person.getFirstName(),
-      person.getLastName(),
-      person.getUser().getUserIdentifier(),
-      person.getGender(),
-      person.getBirthDate(),
-      person.getITIN(),
-      person.getUser().getActive(),
-      person.getUser().getAvatar(),
-      person.getUser().getThemeImage()
-    );
-  }
+  private Long code;
+  private String firstName;
+  private String lastName;
+  private String userIdentifier;
+  private String gender;
+  private LocalDate birthDate;
+  private String ITIN;
+  private Boolean active;
+  private byte[] avatar;
+  private byte[] themeImage;
+  private LocalDateTime createdDate;
+  private LocalDateTime updatedDate;
 
 }

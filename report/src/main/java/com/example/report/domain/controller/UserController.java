@@ -15,11 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.report.domain.dto.UserDTO;
-import com.example.report.domain.dto.UserRegistrationRequest;
-import com.example.report.domain.exception.UserNotFoundException;
-import com.example.report.domain.mapper.UserDTOMapper;
 import com.example.report.domain.mapper.UserMapper;
-import com.example.report.domain.model.Person;
 import com.example.report.domain.service.UserService;
 
 @RestController
@@ -27,18 +23,18 @@ import com.example.report.domain.service.UserService;
 public class UserController {
   
   private final UserService userService;
-  private final UserDTOMapper userDTOMapper;
+  private final UserMapper userMapper;
 
-  public UserController(UserService userService, UserDTOMapper userDTOMapper) {
+  public UserController(UserService userService, UserMapper userMapper) {
     this.userService = userService;
-    this.userDTOMapper = userDTOMapper;
+    this.userMapper = userMapper;
   }
 
   // Get all users
   @GetMapping(value = "/users")
   @PreAuthorize("hasRole('admin')")
   public ResponseEntity<List<UserDTO>> getUsers() {
-    var result = userService.getAllUsers().stream().map(userDTOMapper).collect(Collectors.toList());
+    var result = userService.getAllUsers().stream().map(UserMapper::toDto).collect(Collectors.toList());
     return ResponseEntity.ok(result);
   }
 
@@ -47,36 +43,31 @@ public class UserController {
   @PreAuthorize("hasRole('admin')")
   public ResponseEntity<UserDTO> findUser(@PathVariable(value = "id") Long id) {
     var result = userService.findUserById(id);
-    return ResponseEntity.ok(userDTOMapper.apply(result));
+    return ResponseEntity.ok(UserMapper.toDto(result));
   }
 
   // Register a new user
   @PostMapping(value = "/users")
   @PreAuthorize("hasRole('admin')")
-  public ResponseEntity<UserDTO> registerUser(@RequestBody UserRegistrationRequest user) {
-    var result = userService.registerUser(user);
-    return ResponseEntity.ok(userDTOMapper.apply(result));
+  public ResponseEntity<UserDTO> registerUser(@RequestBody UserDTO user) {
+    var result = userService.registerUser(UserMapper.toEntity(user));
+    return ResponseEntity.ok(UserMapper.toDto(result));
   }
 
   // Update a user
   @PutMapping(value = "/users/{id}")
   @PreAuthorize("hasRole('admin')")
-  public ResponseEntity<UserDTO> updateUser(@PathVariable(value = "id") Long id, @RequestBody UserRegistrationRequest user) {
-    var result = userService.updateUser(id, user);
-    return ResponseEntity.ok(userDTOMapper.apply(result));
+  public ResponseEntity<UserDTO> updateUser(@PathVariable(value = "id") Long id, @RequestBody UserDTO user) {
+    var result = userService.updateUser(id, UserMapper.toEntity(user));
+    return ResponseEntity.ok(UserMapper.toDto(result));
   }
 
   // Delete a user
   @DeleteMapping(value = "/users/{id}")
   @PreAuthorize("hasRole('admin')")
-  public ResponseEntity<?> deleteUser(@PathVariable(value = "id") Long id) {
-    try {
-      userService.deleteUser(id);
-      return ResponseEntity.ok().build();
-    } catch (UserNotFoundException e) {
-      System.out.println("[ ERROR ] -> Error to delete user: " + e.getMessage());
-      return ResponseEntity.notFound().build();
-    }
+  public ResponseEntity<?> deleteUser(@PathVariable(value = "id") Long id) throws Exception {
+    userService.deleteUser(id);
+    return ResponseEntity.ok().build();
   }
 
 }
