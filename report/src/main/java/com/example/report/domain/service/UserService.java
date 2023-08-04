@@ -1,15 +1,12 @@
 package com.example.report.domain.service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.example.report.domain.dto.UserDTO;
 import com.example.report.domain.exception.UserAlreadyExistException;
 import com.example.report.domain.exception.UserNotFoundException;
 import com.example.report.domain.model.Person;
-import com.example.report.domain.model.User;
 import com.example.report.domain.repository.UserRepository;
 
 import jakarta.transaction.Transactional;
@@ -27,17 +24,17 @@ public class UserService {
   /**
    * Get all people
    * 
-   * @return
+   * @return {@code All Users}
    */
   public List<Person> getAllUsers() {
     return userRepository.findAll();
   }
 
   /**
-   * Find a person by id
+   * Find a person by {@code id}
    * 
    * @param id
-   * @return
+   * @return {@code User}
    */
   public Person findUserById(Long id) {
     return userRepository.findById(id)
@@ -48,7 +45,7 @@ public class UserService {
    * Register a new person
    * 
    * @param person
-   * @return
+   * @return {@code new User}
    */
   public Person registerUser(Person user) {
     Person newUser = new Person();
@@ -75,11 +72,11 @@ public class UserService {
   }
 
   /**
-   * Update a person by id
+   * Update a person by {@code id}
    * 
    * @param id
    * @param person
-   * @return
+   * @return {@code updated User}
    */
   public Person updateUser(Long id, Person user) {
     Person personToUpdate = null;
@@ -94,7 +91,7 @@ public class UserService {
       personToUpdate.setLastName(user.getLastName());
       personToUpdate.setGender(user.getGender());
       personToUpdate.setBirthDate(user.getBirthDate());
-      personToUpdate.setITIN(user.getITIN());
+      personToUpdate.setItin(user.getItin());
       personToUpdate.getUser().setAvatar(user.getUser().getAvatar());
       personToUpdate.getUser().setThemeImage(user.getUser().getThemeImage());
       personToUpdate.getUser().setUserIdentifier(user.getUser().getUserIdentifier());
@@ -107,7 +104,7 @@ public class UserService {
   }
 
   /**
-   * Delete a person by id
+   * Delete a person by {@code id}
    * 
    * @param id
    * @throws Exception
