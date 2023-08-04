@@ -58,7 +58,7 @@ public class UserService {
       ).get();
 
     if (personExist != null) {
-      throw new UserAlreadyExistException("Person already exists");
+      throw new UserAlreadyExistException("User already exists");
     } else {
 
       user.getUser().setActive(true);
