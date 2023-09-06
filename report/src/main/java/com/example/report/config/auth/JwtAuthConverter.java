@@ -1,4 +1,4 @@
-package com.example.report.domain.config.auth;
+package com.example.report.config.auth;
 
 import java.util.Collection;
 import java.util.Map;

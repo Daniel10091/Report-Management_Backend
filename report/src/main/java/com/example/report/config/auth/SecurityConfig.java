@@ -1,4 +1,4 @@
-package com.example.report.domain.config.auth;
+package com.example.report.config.auth;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

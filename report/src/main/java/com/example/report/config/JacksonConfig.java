@@ -1,4 +1,4 @@
-package com.example.report.domain.config;
+package com.example.report.config;
 
 import java.time.format.DateTimeFormatter;
 
