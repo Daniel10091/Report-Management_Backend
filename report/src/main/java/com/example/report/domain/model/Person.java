@@ -32,6 +32,18 @@ import lombok.Setter;
 @Setter
 public class Person {
 
+  public Person(Person person) {
+    this.id = person.getId();
+    this.firstName = person.getFirstName();
+    this.lastName = person.getLastName();
+    this.birthDate = person.getBirthDate();
+    this.gender = person.getGender();
+    this.itin = person.getItin();
+    this.createdDate = person.getCreatedDate();
+    this.updatedDate = person.getUpdatedDate();
+    this.user = person.getUser();
+  }
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(nullable = false)
@@ -68,6 +80,6 @@ public class Person {
   private LocalDateTime updatedDate;
 
   @OneToOne(mappedBy = "person", cascade = CascadeType.ALL, optional = true)
-  private User user;
+  private User user = new User();
   
 }

@@ -1,0 +1,19 @@
+{
+  "Objects": [
+    {
+      "User": [
+        {
+          "firstName": "John",
+          "lastName": "Doe",
+          "userIdentifier": "doe_john",
+          "gender": "M",
+          "birthDate": "1990-01-01",
+          "ITIN": "123456789",
+          "active": 1,
+          "avatar": "https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50",
+          "themeImage": "https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50"
+        }
+      ]
+    }
+  ]
+}

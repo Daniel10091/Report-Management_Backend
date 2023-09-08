@@ -25,35 +25,35 @@ public class MedicalReportConsultationController {
     this.medicalReportConsultationService = medicalReportConsultationService;
   }
 
-  @GetMapping(value = "/maintainDocumentConsultation")
-  @PreAuthorize("hasRole('admin')")
-  public ResponseEntity<List<Object>> getAllMedicalReports() {
-    return ResponseEntity.ok(medicalReportConsultationService.getAllMedicalReports());
-  }
+  // @GetMapping(value = "/maintainDocumentConsultation")
+  // @PreAuthorize("hasRole('admin')")
+  // public ResponseEntity<List<Object>> getAllMedicalReports() {
+  //   return ResponseEntity.ok(medicalReportConsultationService.getAllMedicalReports());
+  // }
 
-  @RolesAllowed("DOCTOR")
-  @GetMapping(value = "/maintainDocumentConsultation")
-  @PreAuthorize("hasRole('user')")
-  public ResponseEntity<List<Object>> getMedicalReportsByFilter() {
-    return null;
-  }
+  // @RolesAllowed("DOCTOR")
+  // @GetMapping(value = "/maintainDocumentConsultation")
+  // @PreAuthorize("hasRole('user')")
+  // public ResponseEntity<List<Object>> getMedicalReportsByFilter() {
+  //   return null;
+  // }
 
-  @RolesAllowed("DOCTOR")
-  @GetMapping(value = "/maintainDocumentConsultation/{id}")
-  @PreAuthorize("hasRole('user')")
-  public ResponseEntity<Object> findMedicalReport(@PathVariable Long id) {
-    return null;
-  }
+  // @RolesAllowed("DOCTOR")
+  // @GetMapping(value = "/maintainDocumentConsultation/{id}")
+  // @PreAuthorize("hasRole('user')")
+  // public ResponseEntity<Object> findMedicalReport(@PathVariable Long id) {
+  //   return null;
+  // }
 
-  @RolesAllowed("DOCTOR")
-  @GetMapping(value = "/maintainDocumentConsultation/{id}")
-  @PreAuthorize("hasRole('user')")
-  public ResponseEntity<Object> registerMedicalReport(
-      HttpServletRequest request,
-      @RequestParam("printCPF") Boolean printCPF, 
-      @RequestParam("printAddress") Boolean printAddress
-    ) {
-    return null;
-  }
+  // @RolesAllowed("DOCTOR")
+  // @GetMapping(value = "/maintainDocumentConsultation/{id}")
+  // @PreAuthorize("hasRole('user')")
+  // public ResponseEntity<Object> registerMedicalReport(
+  //     HttpServletRequest request,
+  //     @RequestParam("printCPF") Boolean printCPF, 
+  //     @RequestParam("printAddress") Boolean printAddress
+  //   ) {
+  //   return null;
+  // }
 
 }

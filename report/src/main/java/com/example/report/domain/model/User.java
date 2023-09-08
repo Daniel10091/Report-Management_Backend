@@ -23,6 +23,17 @@ import lombok.Setter;
 @Getter
 @Setter
 public class User {
+
+  public User(User user) {
+    this.id = user.getId();
+    this.person = user.getPerson();
+    this.avatar = user.getAvatar();
+    this.themeImage = user.getThemeImage();
+    this.userIdentifier = user.getUserIdentifier();
+    this.active = user.getActive();
+    this.createdDate = user.getCreatedDate();
+    this.updatedDate = user.getUpdatedDate();
+  }
   
   @Id
   @Column(nullable = false)

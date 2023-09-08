@@ -5,23 +5,20 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
 import com.example.report.domain.dto.UserDTO;
-import com.example.report.domain.model.Person;
+import com.example.report.domain.model.User;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface UserMapper {
 
-  @Mapping(source = "person.id", target = "code")
-  @Mapping(source = "person.user.userIdentifier", target = "userIdentifier")
-  @Mapping(source = "person.user.active", target = "active")
-  @Mapping(source = "person.user.avatar", target = "avatar")
-  @Mapping(source = "person.user.themeImage", target = "themeImage")
-  public static UserDTO toDto(Person Person) {
-    throw new UnsupportedOperationException("Unimplemented method 'toDto'");
-  }
+  @Mapping(source = "user.id", target = "code")
+  @Mapping(source = "user.person.firstName", target = "firstName")
+  @Mapping(source = "user.person.lastName", target = "lastName")
+  @Mapping(source = "user.person.birthDate", target = "birthDate")
+  @Mapping(source = "user.person.gender", target = "gender")
+  @Mapping(source = "user.person.itin", target = "itin")
+  public UserDTO toDto(User user);
 
   @InheritInverseConfiguration
-  public static Person toEntity(UserDTO PersonDTO) {
-    throw new UnsupportedOperationException("Unimplemented method 'toEntity'");
-  }
+  public User toEntity(UserDTO PersonDTO);
 
 }

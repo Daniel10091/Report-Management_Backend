@@ -1,12 +1,15 @@
 package com.example.report.domain.service;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
 import com.example.report.domain.exception.UserAlreadyExistException;
 import com.example.report.domain.exception.UserNotFoundException;
 import com.example.report.domain.model.Person;
+import com.example.report.domain.model.User;
 import com.example.report.domain.repository.UserRepository;
 
 import jakarta.transaction.Transactional;
@@ -44,28 +47,28 @@ public class UserService {
   /**
    * Register a new person
    * 
-   * @param person
+   * @param Entity { <b>{@link Person}</b> }
    * @return {@code new User}
    */
   public Person registerUser(Person user) {
-    Person newUser = new Person();
-    Person personExist = null;
+    Person newUser = null;
+    Optional<Person> personExist = null;
     Person userReturn = null;
 
     personExist = userRepository.findPersonByFirstNameAndLastName(
         user.getFirstName(),
         user.getLastName()
-      ).get();
+      );
 
-    if (personExist != null) {
+    if (!personExist.isEmpty()) {
       throw new UserAlreadyExistException("User already exists");
     } else {
 
-      user.getUser().setActive(true);
-      
+      newUser = new Person(user);
+      newUser.getUser().setActive(true);
       newUser.getUser().setPerson(newUser);
 
-      newUser = userRepository.save(newUser);
+      userReturn = userRepository.save(newUser);
     }
 
     return userReturn;
@@ -75,7 +78,7 @@ public class UserService {
    * Update a person by {@code id}
    * 
    * @param id
-   * @param person
+   * @param Entity > { <b>{@link Person}</b> }
    * @return {@code updated User}
    */
   public Person updateUser(Long id, Person user) {
