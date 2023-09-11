@@ -88,6 +88,7 @@ CREATE TABLE `tbl_users` (
   `avatar` LONGBLOB,
   `theme_image` LONGBLOB,
   `user_identifier` varchar(45) NOT NULL,
+  `online` tinyint(1) NOT NULL,
   `active` tinyint(1) NOT NULL,
   `created_date` datetime NOT NULL,
   `updated_date` datetime NOT NULL,

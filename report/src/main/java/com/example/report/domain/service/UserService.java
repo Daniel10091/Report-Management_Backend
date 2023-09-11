@@ -1,6 +1,6 @@
 package com.example.report.domain.service;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import com.example.report.domain.exception.UserAlreadyExistException;
 import com.example.report.domain.exception.UserNotFoundException;
 import com.example.report.domain.model.Person;
-import com.example.report.domain.model.User;
 import com.example.report.domain.repository.UserRepository;
 
 import jakarta.transaction.Transactional;
@@ -27,17 +26,66 @@ public class UserService {
   /**
    * Get all people
    * 
-   * @return {@code All Users}
+   * @return {@code List<Person>}
    */
-  public List<Person> getAllUsers() {
-    return userRepository.findAll();
+  public List<Person> getAllUsers(String option) {
+    List<Person> users = null;
+
+    switch (option) {
+      case "active":
+      
+        users = userRepository.findAllActiveUsers(true);
+
+        if (users.isEmpty()) 
+          throw new UserNotFoundException("No active users found");
+
+        break;
+
+      case "inactive":
+
+        users = userRepository.findAllActiveUsers(false);
+            
+        if (users.isEmpty()) 
+          throw new UserNotFoundException("No inactive users found");
+
+        break;
+      
+      case "online":
+
+        users = userRepository.findAllOnlineUsers(true);
+            
+        if (users.isEmpty()) 
+          throw new UserNotFoundException("No online users found");
+
+        break;
+
+      case "offline":
+
+        users = userRepository.findAllOnlineUsers(false);
+            
+        if (users.isEmpty()) 
+          throw new UserNotFoundException("No offline users found");
+
+        break;
+
+      default:
+      
+        users = userRepository.findAll();
+
+        if (users.isEmpty()) 
+          throw new UserNotFoundException("No users found");
+
+        break;
+    }
+
+    return users;
   }
 
   /**
    * Find a person by {@code id}
    * 
    * @param id
-   * @return {@code User}
+   * @return <b>{@code Person}</b>
    */
   public Person findUserById(Long id) {
     return userRepository.findById(id)
@@ -45,19 +93,33 @@ public class UserService {
   }
 
   /**
+   * Get all inactive people
+   * 
+   * @return {@code List<Person>}
+   */
+  public List<Person> getAllInactiveUsers() {
+    List<Person> users = null;
+
+    
+
+    
+
+    return users;
+  }
+
+  /**
    * Register a new person
    * 
    * @param Entity { <b>{@link Person}</b> }
-   * @return {@code new User}
+   * @return New <b>{@code Person}</b>
    */
   public Person registerUser(Person user) {
     Person newUser = null;
     Optional<Person> personExist = null;
     Person userReturn = null;
 
-    personExist = userRepository.findPersonByFirstNameAndLastName(
-        user.getFirstName(),
-        user.getLastName()
+    personExist = userRepository.findPersonByUserUserIdentifier(
+        user.getUser().getUserIdentifier()
       );
 
     if (!personExist.isEmpty()) {
@@ -65,6 +127,7 @@ public class UserService {
     } else {
 
       newUser = new Person(user);
+      newUser.getUser().setOnline(true);
       newUser.getUser().setActive(true);
       newUser.getUser().setPerson(newUser);
 
@@ -79,7 +142,7 @@ public class UserService {
    * 
    * @param id
    * @param Entity > { <b>{@link Person}</b> }
-   * @return {@code updated User}
+   * @return Updated <b>{@code Person}</b>
    */
   public Person updateUser(Long id, Person user) {
     Person personToUpdate = null;
@@ -95,12 +158,65 @@ public class UserService {
       personToUpdate.setGender(user.getGender());
       personToUpdate.setBirthDate(user.getBirthDate());
       personToUpdate.setItin(user.getItin());
+      personToUpdate.setUpdatedDate(LocalDateTime.now());
       personToUpdate.getUser().setAvatar(user.getUser().getAvatar());
       personToUpdate.getUser().setThemeImage(user.getUser().getThemeImage());
       personToUpdate.getUser().setUserIdentifier(user.getUser().getUserIdentifier());
+      personToUpdate.getUser().setOnline(user.getUser().getOnline());
       personToUpdate.getUser().setActive(user.getUser().getActive());
+      personToUpdate.getUser().setUpdatedDate(LocalDateTime.now());
       
-      personToUpdate = userRepository.save(personToUpdate);
+      // personToUpdate = userRepository.save(personToUpdate);
+    }
+
+    return personToUpdate;
+  }
+
+  /**
+   * Update the user status by {@code id}
+   * 
+   * @param id
+   * @param online
+   * @return Updated <b>{@code Person}</b> status
+   */
+  public Person updateUserStatus(Long id, Boolean online) {
+    Person personToUpdate = null;
+
+    personToUpdate = userRepository.findById(id)
+        .orElseThrow(() -> new UserNotFoundException("User with id " + id + " not found"));
+
+    if (personToUpdate == null) {
+      throw new UserNotFoundException("User with id " + id + " not found");
+    } else {
+      personToUpdate.getUser().setOnline(online);
+      personToUpdate.getUser().setUpdatedDate(LocalDateTime.now());
+      
+      // personToUpdate = userRepository.save(personToUpdate);
+    }
+
+    return personToUpdate;
+  }
+
+  /**
+   * Update the user active by {@code id}
+   * 
+   * @param id
+   * @param active
+   * @return {@code Person}
+   */
+  public Person updateUserActive(Long id, Boolean active) {
+    Person personToUpdate = null;
+
+    personToUpdate = userRepository.findById(id)
+        .orElseThrow(() -> new UserNotFoundException("User with id " + id + " not found"));
+
+    if (personToUpdate == null) {
+      throw new UserNotFoundException("User with id " + id + " not found");
+    } else {
+      personToUpdate.getUser().setActive(active);
+      personToUpdate.getUser().setUpdatedDate(LocalDateTime.now());
+      
+      // personToUpdate = userRepository.save(personToUpdate);
     }
 
     return personToUpdate;

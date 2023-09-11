@@ -54,6 +54,9 @@ public class User {
   private String userIdentifier;
 
   @Column(nullable = false)
+  private Boolean online;
+
+  @Column(nullable = false)
   private Boolean active;
 
   @Column(name = "created_date", nullable = false)

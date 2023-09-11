@@ -19,6 +19,7 @@ public class UserDTO {
   private String gender;
   private LocalDate birthDate;
   private String itin;
+  private Boolean online;
   private Boolean active;
   private byte[] avatar;
   private byte[] themeImage;

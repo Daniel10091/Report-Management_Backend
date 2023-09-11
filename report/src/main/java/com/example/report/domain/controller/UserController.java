@@ -18,6 +18,8 @@ import com.example.report.domain.dto.UserDTO;
 import com.example.report.domain.mapper.PersonMapper;
 import com.example.report.domain.service.UserService;
 
+import jakarta.websocket.server.PathParam;
+
 @RestController
 @RequestMapping(value = "/api/v1")
 public class UserController {
@@ -32,23 +34,24 @@ public class UserController {
 
   // Get all users
   @GetMapping(value = "/users")
-  @PreAuthorize("hasRole('ADMIN')")
-  public ResponseEntity<List<UserDTO>> getUsers() {
-    var result = userService.getAllUsers().stream().map(personMapper::toDto).collect(Collectors.toList());
+  @PreAuthorize("hasRole('USER')")
+  public ResponseEntity<List<UserDTO>> getUsers(@PathParam(value = "option") String option) {
+    var result = userService.getAllUsers(option).stream().map(personMapper::toDto).collect(Collectors.toList());
     return ResponseEntity.ok(result);
   }
 
   // Find a user by id
   @GetMapping(value = "/users/{id}")
-  @PreAuthorize("hasRole('ADMIN')")
+  @PreAuthorize("hasRole('USER')")
   public ResponseEntity<UserDTO> findUser(@PathVariable(value = "id") Long id) {
     var result = userService.findUserById(id);
     return ResponseEntity.ok(personMapper.toDto(result));
   }
 
+
   // Register a new user
   @PostMapping(value = "/users")
-  @PreAuthorize("hasRole('ADMIN')")
+  @PreAuthorize("hasRole('USER')")
   public ResponseEntity<UserDTO> registerUser(@RequestBody UserDTO user) {
     var result = userService.registerUser(personMapper.toEntity(user));
     return ResponseEntity.ok(personMapper.toDto(result));
@@ -56,9 +59,17 @@ public class UserController {
 
   // Update a user
   @PutMapping(value = "/users/{id}")
-  @PreAuthorize("hasRole('ADMIN')")
+  @PreAuthorize("hasRole('USER')")
   public ResponseEntity<UserDTO> updateUser(@PathVariable(value = "id") Long id, @RequestBody UserDTO user) {
     var result = userService.updateUser(id, personMapper.toEntity(user));
+    return ResponseEntity.ok(personMapper.toDto(result));
+  }
+  
+  // Update a user active
+  @PutMapping(value = "/users")
+  @PreAuthorize("hasRole('USER')")
+  public ResponseEntity<UserDTO> updateUserActive(@PathParam(value = "id") Long id, @PathParam(value = "active") Boolean active) {
+    var result = userService.updateUserActive(id, active);
     return ResponseEntity.ok(personMapper.toDto(result));
   }
 
