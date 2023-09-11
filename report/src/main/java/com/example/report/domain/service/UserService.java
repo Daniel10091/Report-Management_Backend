@@ -29,32 +29,40 @@ public class UserService {
    * 
    * @return {@code List<Users>}
    */
-  public List<Person> getAllUsers(String option) {
+  public List<Person> getAllUsers() {
     List<Person> users = null;
-
-    if (!option.isEmpty() || !option.startsWith("all") || option != null) {
-      switch(option) {
-        case "online":
-          users = userRepository.findAllOnlineUsers(true);
-          break;
-        case "offline":
-          users = userRepository.findAllOnlineUsers(false);
-          break;
-        case "active":
-          users = userRepository.findAllActiveUsers(true);
-          break;
-        case "inactive":
-          users = userRepository.findAllActiveUsers(false);
-          break;
-        default:
-          throw new RequestErrorException("Invalid option: " + option + " not found");
-      }
-    }
 
     users = userRepository.findAll();
 
     if (users.isEmpty()) 
       throw new UserNotFoundException("No users found");
+
+    return users;
+  }
+
+  public List<Person> getUsersByStatus(String option) {
+    List<Person> users = null;
+
+    if (option != null) { // option.startsWith("all")
+      switch(option) {
+        case "online":
+          users = this.getAllOnlineUsers(option);
+          break;
+        case "offline":
+          users = this.getAllOnlineUsers(option);
+          break;
+        case "active":
+          users = this.getAllActiveUsers(option);
+          break;
+        case "inactive":
+          users = this.getAllActiveUsers(option);
+          break;
+        default:
+          throw new RequestErrorException("Invalid option: '" + option + "' not found");
+      }
+    } else {
+      throw new RequestErrorException("Invalid option: '" + option + "' not found");
+    }
 
     return users;
   }
@@ -89,7 +97,7 @@ public class UserService {
 
       default:
           
-          throw new RequestErrorException("Invalid option: " + option + " not found");
+          break;
     }
 
     return users;
@@ -124,8 +132,8 @@ public class UserService {
         break;
       
       default:
-      
-        throw new RequestErrorException("Invalid option: " + option + " not found");
+          
+          break;
     }
 
     return users;

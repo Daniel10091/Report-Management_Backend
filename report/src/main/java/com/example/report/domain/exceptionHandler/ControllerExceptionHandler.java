@@ -16,7 +16,7 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 
   @ExceptionHandler({ UserNotFoundException.class })
   public ResponseEntity<ErrorDto> handleUserNotFound(RuntimeException ex, WebRequest request) {
-    var errorDto = new ErrorDto(404, "Usuário não encontrado", ex.getMessage(), request.getDescription(false));
+    var errorDto = new ErrorDto(404, "Nenhum usuário encontrado", ex.getMessage(), request.getDescription(false));
     return ResponseEntity.status(errorDto.getStatus()).body(errorDto);
   }
 

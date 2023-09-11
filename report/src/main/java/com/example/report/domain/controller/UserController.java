@@ -35,8 +35,16 @@ public class UserController {
   // Get all users
   @GetMapping(value = "/users")
   @PreAuthorize("hasRole('USER')")
-  public ResponseEntity<List<UserDTO>> getUsers(@PathParam(value = "option") String option) {
-    var result = userService.getAllUsers(option).stream().map(personMapper::toDto).collect(Collectors.toList());
+  public ResponseEntity<List<UserDTO>> getUsers() {
+    var result = userService.getAllUsers().stream().map(personMapper::toDto).collect(Collectors.toList());
+    return ResponseEntity.ok(result);
+  }
+
+  // Get all online users
+  @GetMapping(value = "/users/filter")
+  @PreAuthorize("hasRole('USER')")
+  public ResponseEntity<List<UserDTO>> getUsersByStatus(@PathParam(value = "option") String option) {
+    var result = userService.getUsersByStatus(option).stream().map(personMapper::toDto).collect(Collectors.toList());
     return ResponseEntity.ok(result);
   }
 
