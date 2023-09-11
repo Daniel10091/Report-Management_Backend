@@ -7,6 +7,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import com.example.report.domain.dto.ErrorDto;
+import com.example.report.domain.exception.RequestErrorException;
 import com.example.report.domain.exception.UserAlreadyExistException;
 import com.example.report.domain.exception.UserNotFoundException;
 
@@ -22,6 +23,12 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
   @ExceptionHandler(UserAlreadyExistException.class)
   public ResponseEntity<ErrorDto> handleUserAlreadyExist(RuntimeException ex, WebRequest request) {
     var errorDto = new ErrorDto(409, "Usuário já existe", ex.getMessage(), request.getDescription(false));
+    return ResponseEntity.status(errorDto.getStatus()).body(errorDto);
+  }
+
+  @ExceptionHandler(RequestErrorException.class)
+  public ResponseEntity<ErrorDto> handleRequestError(RuntimeException ex, WebRequest request) {
+    var errorDto = new ErrorDto(400, "Erro de solicitação", ex.getMessage(), request.getDescription(false));
     return ResponseEntity.status(errorDto.getStatus()).body(errorDto);
   }
 

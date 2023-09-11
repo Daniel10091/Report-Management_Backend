@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import com.example.report.domain.exception.RequestErrorException;
 import com.example.report.domain.exception.UserAlreadyExistException;
 import com.example.report.domain.exception.UserNotFoundException;
 import com.example.report.domain.model.Person;
@@ -24,11 +25,83 @@ public class UserService {
   }
 
   /**
-   * Get all people
+   * Get all users
    * 
-   * @return {@code List<Person>}
+   * @return {@code List<Users>}
    */
   public List<Person> getAllUsers(String option) {
+    List<Person> users = null;
+
+    if (!option.isEmpty() || !option.startsWith("all") || option != null) {
+      switch(option) {
+        case "online":
+          users = userRepository.findAllOnlineUsers(true);
+          break;
+        case "offline":
+          users = userRepository.findAllOnlineUsers(false);
+          break;
+        case "active":
+          users = userRepository.findAllActiveUsers(true);
+          break;
+        case "inactive":
+          users = userRepository.findAllActiveUsers(false);
+          break;
+        default:
+          throw new RequestErrorException("Invalid option: " + option + " not found");
+      }
+    }
+
+    users = userRepository.findAll();
+
+    if (users.isEmpty()) 
+      throw new UserNotFoundException("No users found");
+
+    return users;
+  }
+
+  /**
+   * Get all online users
+   * 
+   * @param status
+   * @return {@code List<Person>}
+   */
+  public List<Person> getAllOnlineUsers(String option) {
+    List<Person> users = null;
+
+    switch(option) {
+      case "online":
+
+        users = userRepository.findAllOnlineUsers(true);
+            
+        if (users.isEmpty()) 
+          throw new UserNotFoundException("No online users found");
+
+        break;
+
+      case "offline":
+
+        users = userRepository.findAllOnlineUsers(false);
+            
+        if (users.isEmpty()) 
+          throw new UserNotFoundException("No offline users found");
+
+        break;
+
+      default:
+          
+          throw new RequestErrorException("Invalid option: " + option + " not found");
+    }
+
+    return users;
+  }
+
+  /**
+   * Get all active users
+   * 
+   * @param status
+   * @return {@code List<Person>}
+   */
+  public List<Person> getAllActiveUsers(String option) {
     List<Person> users = null;
 
     switch (option) {
@@ -50,32 +123,9 @@ public class UserService {
 
         break;
       
-      case "online":
-
-        users = userRepository.findAllOnlineUsers(true);
-            
-        if (users.isEmpty()) 
-          throw new UserNotFoundException("No online users found");
-
-        break;
-
-      case "offline":
-
-        users = userRepository.findAllOnlineUsers(false);
-            
-        if (users.isEmpty()) 
-          throw new UserNotFoundException("No offline users found");
-
-        break;
-
       default:
       
-        users = userRepository.findAll();
-
-        if (users.isEmpty()) 
-          throw new UserNotFoundException("No users found");
-
-        break;
+        throw new RequestErrorException("Invalid option: " + option + " not found");
     }
 
     return users;

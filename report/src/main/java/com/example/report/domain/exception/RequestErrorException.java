@@ -1,21 +1,21 @@
 package com.example.report.domain.exception;
 
-public class UserAlreadyExistException extends RuntimeException {
+public class RequestErrorException extends RuntimeException {
   
   private static final long serialVersionUID = 1L;
-  
+
   /**
    * @param message
    */
-  public UserAlreadyExistException(String message) {
+  public RequestErrorException(String message) {
     super(message);
   }
-
+  
   /**
    * @param message
    * @param cause
    */
-  public UserAlreadyExistException(String message, Throwable cause) {
+  public RequestErrorException(String message, Throwable cause) {
     super(message, cause);
   }
 
