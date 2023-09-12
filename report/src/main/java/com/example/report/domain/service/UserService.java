@@ -57,6 +57,9 @@ public class UserService {
         case "inactive":
           users = this.getAllActiveUsers(option);
           break;
+        case "":
+          users = this.getAllUsers();
+          break;
         default:
           throw new RequestErrorException("Invalid option: '" + option + "' not found");
       }

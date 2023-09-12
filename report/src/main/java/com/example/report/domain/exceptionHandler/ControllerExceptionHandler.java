@@ -10,6 +10,7 @@ import com.example.report.domain.dto.ErrorDto;
 import com.example.report.domain.exception.RequestErrorException;
 import com.example.report.domain.exception.UserAlreadyExistException;
 import com.example.report.domain.exception.UserNotFoundException;
+import com.example.report.domain.exception.auth.UserAuthException;
 
 @ControllerAdvice
 public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
@@ -35,6 +36,12 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
   @ExceptionHandler(RuntimeException.class)
   public ResponseEntity<ErrorDto> handleOtherExceptions(RuntimeException ex, WebRequest request) {
     var errorDto = new ErrorDto(500, "Erro interno do servidor", ex.getMessage(), request.getDescription(false));
+    return ResponseEntity.status(errorDto.getStatus()).body(errorDto);
+  }
+
+  @ExceptionHandler(UserAuthException.class)
+  public ResponseEntity<ErrorDto> handleUserAuth(RuntimeException ex, WebRequest request) {
+    var errorDto = new ErrorDto(400, "Falha na autentificação", ex.getMessage(), request.getDescription(false));
     return ResponseEntity.status(errorDto.getStatus()).body(errorDto);
   }
 
